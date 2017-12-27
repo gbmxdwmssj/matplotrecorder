@@ -11,8 +11,11 @@ This tool use "convert" command of ImageMagick.
 
 # Requrements
 
-- [ImageMagic](https://www.imagemagick.org/script/index.php)
+- [ImageMagic](https://www.imagemagick.org/script/index.php) (newest version, maybe no need to install ffmpeg by use the new version of imagemagick)
 
+- sudo apt-get install imagemagick (make matplotrecorder.py work normally when save .gif file) (old version)
+
+- install ffmpeg (google how to install and this is required if you want to save video such as .mp4 by matplotrecorder.py) (In matplotrecorder.py use ffmpeg command save .mp4 or other videro. Use convert command to save .gif.)
 
 # How to use
 

@@ -21,6 +21,7 @@
 
 """
 
+import os
 import matplotlib.pyplot as plt
 import subprocess
 
@@ -35,25 +36,31 @@ def save_frame():
 
     if not donothing:
         global iframe
-        plt.savefig("recoder" + '{0:04d}'.format(iframe) + '.png')
+        plt.savefig("recorder" + '{0:04d}'.format(iframe) + '.png')
         iframe += 1
 
 
-def save_movie(fname, d_pause, monitor=True):
+def save_movie(fname, d_pause):
     """
-    Save movie as gif
+    Save movie as gif or video (.mp4 recommended)
     """
+
+    filename, extension = os.path.splitext(fname)
+    
+    print("Saving movie......")
+
     if not donothing:
-        if monitor:
-            cmd = "convert -monitor -delay " + str(int(d_pause * 100)) + \
-                " recoder*.png " + fname
+        if extension == ".gif":
+            cmd = "convert -delay " + str(int(d_pause * 100)) + " recorder*.png " + fname
         else:
-            cmd = "convert -delay " + str(int(d_pause * 100)) + \
-                " recoder*.png " + fname
+            ## imagemagick (convert) cannot find ffmpeg
+            cmd = "ffmpeg -framerate " + str(int(d_pause * 100)) + " -pattern_type glob -i 'recorder*.png' -c:v libx264 " + fname
 
         subprocess.call(cmd, shell=True)
-        cmd = "rm recoder*.png"
+        cmd = "rm recorder*.png"
         subprocess.call(cmd, shell=True)
+
+    print("Movie has been saved! (Maybe a bad movie, please check it!)")
 
 
 if __name__ == '__main__':
@@ -75,5 +82,5 @@ if __name__ == '__main__':
 
         save_frame()  # save each frame
 
-    save_movie("animation.gif", 0.1)
-    #  save_movie("animation.mp4", 0.1)
+    # save_movie("test_animation.gif", 0.1)
+    save_movie("test_animation.mpg", 0.1)
